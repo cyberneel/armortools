@@ -9,10 +9,10 @@ on:
     - main
   workflow_dispatch:
     inputs:
-      commit_sha: '600d7c7'
+      commit_sha:
         description: 'Commit SHA to build'
         required: false
-        default: 'HEAD'
+        default: '600d7c7'
 
 jobs:
   build:
