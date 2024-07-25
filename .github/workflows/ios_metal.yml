@@ -27,7 +27,7 @@ jobs:
          sudo xcodebuild -license accept
 
     - name: Build the project
-      run: xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos16.0 -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive
+      run: xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive
 
     - name: Create IPA
       run: |
