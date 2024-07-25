@@ -7,6 +7,12 @@ on:
   pull_request:
     branches:
     - main
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA to build'
+        required: false
+        default: 'HEAD'
 
 jobs:
   build:
@@ -19,8 +25,16 @@ jobs:
       run: git submodule update --init --recursive
     - name: Compile
       run: |
-        cd armorpaint
-        ../armorcore/make --target ios --graphics metal
+        cd ../armorcore
+        git apply patch/metal_raytrace.diff --directory=Kinc
+        git apply patch/ios_document_picker.diff --directory=Kinc
+        git apply patch/ios_pencil_hover.diff --directory=Kinc
+        cd ../armorpaint
+        ../armorcore/Kinc/make --from ../armorcore -g metal ios
+        cp -a build/krom/ ../armorcore/Deployment
+# Open generated Xcode project `build/ArmorPaint.xcodeproj`
+# Set iOS Deployment Target to 16.0
+# Build for device in release mode
 
     - name: Set up Xcode
       run: |
