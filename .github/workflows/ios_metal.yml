@@ -29,7 +29,7 @@ jobs:
     - name: Build the project
       run: |
         cd armorpaint
-        xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive
+        xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
     - name: Create IPA
       run: |
