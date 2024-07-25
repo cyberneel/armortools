@@ -9,7 +9,7 @@ on:
     - main
   workflow_dispatch:
     inputs:
-      commit_sha:
+      commit_sha: '600d7c7'
         description: 'Commit SHA to build'
         required: false
         default: 'HEAD'
@@ -21,6 +21,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.inputs.commit_sha }}
+        submodules: true
+        fetch-depth: 0  # Ensure all history is fetched for submodules
+
     - name: Get Submodules
       run: git submodule update --init --recursive
     - name: Compile
