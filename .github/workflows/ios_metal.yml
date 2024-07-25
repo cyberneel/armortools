@@ -24,7 +24,6 @@ jobs:
 
     - name: Set up Xcode
       run: |
-         sudo xcode-select --switch /Applications/Xcode_14.0.app
          sudo xcodebuild -license accept
 
     - name: Build the project
