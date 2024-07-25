@@ -21,3 +21,31 @@ jobs:
       run: |
         cd armorpaint
         ../armorcore/make --target ios --graphics metal
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Set up Xcode
+      run: |
+         sudo xcode-select --switch /Applications/Xcode_14.0.app
+         sudo xcodebuild -license accept
+
+    - name: Build the project
+      run: xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos16.0 -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive
+
+    - name: Create IPA
+      run: |
+        mkdir -p Payload
+        cp -r $PWD/build/ArmorPaint.xcarchive/Products/Applications/ArmorPaint.app Payload/
+        zip -r ArmorPaint.ipa Payload
+
+    - name: Upload IPA as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ArmorPaint-IPA
+        path: ArmorPaint.ipa
