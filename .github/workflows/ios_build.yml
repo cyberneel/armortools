@@ -1,0 +1,44 @@
+name: Build iOS App
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+  pull_request:
+    branches:
+      - main  # Trigger on PR to main branch
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set up Xcode
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_12.5.app
+          sudo xcodebuild -license accept
+
+      - name: Build the project
+        run: xcodebuild -project build/ArmorPaint.xcodeproj -scheme ArmorPaint -sdk iphoneos16.0 -configuration Release archive -archivePath $PWD/build/ArmorPaint.xcarchive
+
+      - name: Get Submodules
+        run: git submodule update --init --recursive
+
+      - name: Create IPA
+        run: |
+          cd armorpaint
+          ../armorcore/make --target ios --graphics metal
+          mkdir -p Payload
+          cp -r $PWD/build/ArmorPaint.xcarchive/Products/Applications/ArmorPaint.app Payload/
+          zip -r ArmorPaint.ipa Payload
