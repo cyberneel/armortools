@@ -25,7 +25,7 @@ jobs:
       run: git submodule update --init --recursive
     - name: Compile
       run: |
-        cd ../armorcore
+        cd armorcore
         git apply patch/metal_raytrace.diff --directory=Kinc
         git apply patch/ios_document_picker.diff --directory=Kinc
         git apply patch/ios_pencil_hover.diff --directory=Kinc
