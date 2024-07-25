@@ -22,14 +22,6 @@ jobs:
         cd armorpaint
         ../armorcore/make --target ios --graphics metal
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm install
-
     - name: Set up Xcode
       run: |
          sudo xcode-select --switch /Applications/Xcode_14.0.app
